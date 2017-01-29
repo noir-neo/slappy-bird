@@ -14,6 +14,18 @@ class Game
     #binding.pry
     @post = Slack.chat_postMessage(params)
     @tap = 0
+
+    reaction(@post)
+  end
+
+  def reaction(post)
+    params =
+    {
+      name: "point_up_2",
+      channel: post['channel'],
+      timestamp: post['ts'],
+    }
+    puts Slack.reactions_add(params)
   end
 
   def main_loop
