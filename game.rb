@@ -1,4 +1,14 @@
 class Game
+
+  @@e = {
+    :bird => ':flappybird:',
+    :blank => ':block_bl:',
+    :pipe_down => ':pipe_down:',
+    :pipe_up => ':pipe_up:',
+    :pipe_end_down => ':pipe_end_down:',
+    :pipe_end_up => ':pipe_end_up:',
+  }
+
   def initialize(channel)
     start(channel)
     main_loop
@@ -51,12 +61,20 @@ class Game
 
   def update
     return if @post.nil?
+    update_text
+    chat_update
+  end
+
+  def update_text
     if @tap > 0
       @text += '?'
       @tap = 0
     else
       @text += '!'
     end
+  end
+
+  def chat_update
     params =
     {
       ts: @post['ts'],

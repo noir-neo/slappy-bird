@@ -20,7 +20,8 @@ client.on :message do |data|
 end
 
 client.on :reaction_added do |data|
-  puts data['item']
+  puts data
+  #return if data[]
   games.each do |game|
     if data['item']['ts'] == game.ts
       game.tap
