@@ -4,7 +4,7 @@ require 'pry'
 
 class Game
 
-  @@width = 11
+  @@width = 12
   @@height = 12
 
   @@f = {
@@ -51,6 +51,8 @@ class Game
     {
       channel: channel,
       text: title_text,
+      icon_emoji: @@f[0],
+      username: 'Slappy Bird'
     }
     #binding.pry
     @post = Slack.chat_postMessage(params)
@@ -65,7 +67,7 @@ class Game
       channel: post['channel'],
       timestamp: post['ts'],
     }
-    puts Slack.reactions_add(params)
+    Slack.reactions_add(params)
   end
 
   def main_loop

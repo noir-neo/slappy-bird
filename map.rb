@@ -1,7 +1,7 @@
 require './pipe.rb'
 
 class Map
-  @@create_pipe_wait_frame = 3
+  @@create_pipe_wait_frame = 5
 
   def initialize(width, height)
     @pipes = []
@@ -24,7 +24,6 @@ class Map
     @pipes = @pipes.select { |p| p.x > 0 }
 
     @countup_create_pipe += 1
-    puts @countup_create_pipe
     if @countup_create_pipe > @@create_pipe_wait_frame
       create_pipe
       @countup_create_pipe = 0
