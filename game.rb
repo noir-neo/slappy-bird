@@ -44,6 +44,7 @@ class Game
   end
 
   def start(channel)
+    @startgame = nil
     @bird = Bird.new(@@height)
     @map = Map.new(@@width, @@height)
 
@@ -73,13 +74,15 @@ class Game
   def main_loop
     thread = Thread.start {
       every_seconds(1) do
-        if @gameover
-          thread.join
-          puts 'gameover'
-          break
-        end
+        if @startgame
+          if @gameover
+            thread.join
+            puts 'gameover'
+            break
+          end
 
-        update
+          update
+        end
       end
     }
   end
@@ -161,6 +164,12 @@ class Game
   end
 
   def tap
+    if @startgame.nil?
+      @startgame = false
+      return
+    end
+
     @bird.tap
+    @startgame = true
   end
 end

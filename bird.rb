@@ -1,6 +1,6 @@
 class Bird
   def initialize(height)
-    @tap_count = -1
+    @tap_count = 0
     @altitude = height/2
     @angle = 0
   end
