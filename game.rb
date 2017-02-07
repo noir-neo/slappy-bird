@@ -1,4 +1,5 @@
 require './bird.rb'
+require './map.rb'
 require 'pry'
 
 class Game
@@ -44,6 +45,7 @@ class Game
 
   def start(channel)
     @bird = Bird.new(@@height)
+    @map = Map.new(@@width, @@height)
 
     params =
     {
@@ -92,6 +94,7 @@ class Game
     return if @post.nil?
 
     @bird.update
+    @map.update
 
     chat_update
   end
@@ -115,12 +118,23 @@ class Game
   end
 
   def render_bird(arr)
-    arr[@@height - @bird.altitude][3] = @@f[@bird.angle]
+    arr[@@height - @bird.altitude - 1][3] = @@f[@bird.angle]
     arr
   end
 
   def render_map(arr)
     arr[@@height - 1] = arr[@@height - 1].map { |e| e = @@m[:gr] }
+
+    @map.pipes.each do |pipe|
+      [*0..pipe.pos[1]].each do |down|
+        arr[down][pipe.pos[0]] = @@m[:pd]
+      end
+      [*pipe.pos[2]..@@height-1].each do |up|
+        arr[up][pipe.pos[0]] = @@m[:pu]
+      end
+      arr[pipe.pos[1]][pipe.pos[0]] = @@m[:ed]
+      arr[pipe.pos[2]][pipe.pos[0]] = @@m[:eu]
+    end
     arr
   end
 
