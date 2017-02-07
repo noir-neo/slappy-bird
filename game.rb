@@ -27,6 +27,7 @@ class Game
   }
 
   @@num = [
+    ':zero:',
     ':one:',
     ':two:',
     ':three:',
@@ -45,6 +46,7 @@ class Game
 
   def start(channel)
     @startgame = nil
+    @score = 0
     @bird = Bird.new(@@height)
     @map = Map.new(@@width, @@height)
 
@@ -143,6 +145,11 @@ class Game
     arr
   end
 
+  def render_ui(arr)
+    arr[0][@@width/2] = @@num[@score]
+    arr
+  end
+
   def title_text
     arr = render_clear
     arr = render_map(arr)
@@ -154,6 +161,7 @@ class Game
     arr = render_clear
     arr = render_map(arr)
     arr = render_bird(arr)
+    arr = render_ui(arr)
     array_to_text(arr)
   end
 
