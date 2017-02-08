@@ -19,8 +19,7 @@ class Game
 
   @@m = {
     :bl => ':block_bl:',
-    :pd => ':pipe_down:',
-    :pu => ':pipe_up:',
+    :pi => ':pipe:',
     :ed => ':pipe_end_down:',
     :eu => ':pipe_end_up:',
     :gr => ':cactus:',
@@ -134,10 +133,10 @@ class Game
 
     @map.pipes.each do |pipe|
       [*0..pipe.pos[1]].each do |down|
-        arr[down][pipe.pos[0]] = @@m[:pd]
+        arr[down][pipe.pos[0]] = @@m[:pi]
       end
       [*pipe.pos[2]..@@height-1].each do |up|
-        arr[up][pipe.pos[0]] = @@m[:pu]
+        arr[up][pipe.pos[0]] = @@m[:pi]
       end
       arr[pipe.pos[1]][pipe.pos[0]] = @@m[:ed]
       arr[pipe.pos[2]][pipe.pos[0]] = @@m[:eu]

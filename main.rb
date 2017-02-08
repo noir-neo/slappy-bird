@@ -14,7 +14,7 @@ client.on :hello do
 end
 
 client.on :message do |data|
-  if data['text'] == 'bird' && data['subtype'] != 'bot_message'
+  if data['text'] == 'slappybird' && data['subtype'] != 'bot_message'
     games.push(Game.new(data['channel']))
   end
 end
