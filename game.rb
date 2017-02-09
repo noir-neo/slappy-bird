@@ -106,7 +106,14 @@ class Game
     return if @post.nil?
 
     @bird.update
-    @map.update
+
+    if @bird.live?
+      if @map.collision?(@bird.x, @bird.y)
+        @bird.kill
+      else
+        @map.update
+      end
+    end
 
     chat_update(update_text)
   end
@@ -130,7 +137,7 @@ class Game
   end
 
   def render_bird(arr)
-    arr[@@height - @bird.altitude - 1][@bird.x] = @@f[@bird.angle]
+    arr[@bird.y][@bird.x] = @@f[@bird.angle]
     arr
   end
 
@@ -179,7 +186,7 @@ class Game
   end
 
   def gameover?
-    @bird.altitude < 1
+    @bird.ground?
   end
 
   def score

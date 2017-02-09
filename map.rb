@@ -16,6 +16,19 @@ class Map
     end
   end
 
+  def pipes_next_pos
+    active_pipes.map do |pipe|
+      pipe.next_pos
+    end
+  end
+
+  def collision?(x, y)
+    pipes_next_pos.any? do |pos|
+      a = pos[:x] == x && (y <= pos[:top] || pos[:bottom] <= y)
+      a
+    end
+  end
+
   def count_pipes_more_left(x)
     @pipes.select { |p| p.x <= x }.size
   end

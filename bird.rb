@@ -3,18 +3,23 @@ class Bird
   @@x = 3
 
   def initialize(height)
+    @height = height
     @tap_count = 0
-    @altitude = height/2
     @angle = 0
-    @x = x
+    @y = height/2
+    @live = true
   end
 
   def tap
-    @tap_count += 1
+    @tap_count += 1 if @live
   end
 
   def altitude
-    @altitude
+    @height - @y - 1
+  end
+
+  def ground?
+    altitude < 1
   end
 
   def angle
@@ -25,20 +30,41 @@ class Bird
     @@x
   end
 
+  def y
+    @y
+  end
+
+  def pos
+    {
+      :x => x,
+      :y => y
+    }
+  end
+
+  def kill
+    @live = false
+  end
+
+  def live?
+    @live
+  end
+
   def update
     if @tap_count > 0
-      @altitude += @tap_count
+      @y -= @tap_count
+      @y = 0 if @y < 0
       @angle = -30 * @tap_count
       @angle = -90 if @angle < -90
       @tap_count = 0
     elsif @tap_count == 0
-      @altitude -= 1
+      @y += 1
       @angle += 30
       @angle = 90 if @angle > 90
     end
 
-    if @altitude < 1
-      @altitude = 0
+    if ground?
+      y = @height - 1
+      kill
     end
   end
 end

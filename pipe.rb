@@ -1,5 +1,7 @@
 class Pipe
 
+  @@speed = 1
+
   def initialize(width, height)
     @x = width
     @space = random_space(height)
@@ -17,11 +19,19 @@ class Pipe
     }
   end
 
+  def next_pos
+    {
+      :x => @x - @@speed - 1,
+      :top => @space - 3,
+      :bottom => @space + 1
+    }
+  end
+
   def random_space(height)
     [*3..height-2].sample
   end
 
   def update
-    @x -= 1 if @x >= 0
+    @x -= @@speed if @x >= 0
   end
 end
