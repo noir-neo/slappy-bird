@@ -87,7 +87,7 @@ class Game
 
   def main_loop
     thread = Thread.start {
-      every_seconds(1) do
+      every_seconds(0.5) do
         if @startgame
           if gameover?
             thread.join
