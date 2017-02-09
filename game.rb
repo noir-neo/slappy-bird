@@ -44,7 +44,6 @@ class Game
 
   def start(channel = nil)
     @startgame = nil
-    @score = 0
     @bird = Bird.new(@@height)
     @map = Map.new(@@width, @@height)
 
@@ -131,7 +130,7 @@ class Game
   end
 
   def render_bird(arr)
-    arr[@@height - @bird.altitude - 1][3] = @@f[@bird.angle]
+    arr[@@height - @bird.altitude - 1][@bird.x] = @@f[@bird.angle]
     arr
   end
 
@@ -152,7 +151,7 @@ class Game
   end
 
   def render_ui(arr)
-    arr[0][@@width/2] = @@num[@score]
+    arr[0][@@width/2] = @@num[score]
     arr
   end
 
@@ -173,6 +172,10 @@ class Game
 
   def gameover?
     @bird.altitude < 1
+  end
+
+  def score
+    @map.count_pipes_more_left(@bird.x)
   end
 
   def ts

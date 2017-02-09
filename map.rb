@@ -11,9 +11,13 @@ class Map
   end
 
   def pipes_pos
-    @pipes.map do |pipe|
+    active_pipes.map do |pipe|
       pipe.pos
     end
+  end
+
+  def count_pipes_more_left(x)
+    @pipes.select { |p| p.x <= x }.size
   end
 
   def create_pipe
@@ -21,9 +25,12 @@ class Map
     @pipes.push(pipe)
   end
 
+  def active_pipes
+    @pipes.select { |p| p.x > 0 }
+  end
+
   def update
-    @pipes.each { |p| p.update }
-    @pipes = @pipes.select { |p| p.x > 0 }
+    active_pipes.each { |p| p.update }
 
     @countup_create_pipe += 1
     if @countup_create_pipe > @@create_pipe_wait_frame
