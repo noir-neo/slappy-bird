@@ -22,8 +22,14 @@ class Game
     :pi => ':pipe:',
     :ed => ':pipe_end_down:',
     :eu => ':pipe_end_up:',
-    :gr => ':cactus:',
   }
+
+  @@bg = [
+    ':cactus:',
+    ':house_with_garden:',
+    ':deciduous_tree:',
+    ':evergreen_tree:',
+  ]
 
   @@num = [
     ':zero:',
@@ -45,7 +51,7 @@ class Game
   def start(channel = nil)
     @startgame = nil
     @bird = Bird.new(@@height)
-    @map = Map.new(@@width, @@height)
+    @map = Map.new(@@width, @@height, @@bg.size)
 
     unless @post || channel.nil?
       @post = post_message(channel, title_text)
@@ -142,7 +148,10 @@ class Game
   end
 
   def render_map(arr)
-    arr[@@height - 1] = arr[@@height - 1].map { |e| e = @@m[:gr] }
+    @map.background.each_with_index do |bg, i|
+      arr[@@height - 1][i] = @@bg[bg]
+    end
+
 
     @map.pipes_pos.each do |pos|
       [*0..pos[:top]].each do |down|

@@ -3,11 +3,13 @@ require './pipe.rb'
 class Map
   @@create_pipe_wait_frame = 5
 
-  def initialize(width, height)
+  def initialize(width, height, bg_kinds)
     @pipes = []
     @width = width
     @height = height
+    @bg_kinds = bg_kinds
     @countup_create_pipe = 0
+    @background = create_background(@width)
   end
 
   def pipes_pos
@@ -27,6 +29,23 @@ class Map
       a = pos[:x] == x && (y <= pos[:top] || pos[:bottom] <= y)
       a
     end
+  end
+
+  def create_background(w)
+    Array.new(w) { sample_bg }
+  end
+
+  def sample_bg
+    [*0..(@bg_kinds-1)].sample
+  end
+
+  def background
+    @background
+  end
+
+  def update_background
+    @background.shift
+    @background.push(sample_bg)
   end
 
   def count_pipes_more_left(x)
@@ -50,5 +69,7 @@ class Map
       create_pipe
       @countup_create_pipe = 0
     end
+
+    update_background
   end
 end
