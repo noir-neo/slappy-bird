@@ -14,12 +14,8 @@ class Bird
     @tap_count += 1 if @live
   end
 
-  def altitude
-    @height - @y - 1
-  end
-
   def ground?
-    altitude < 1
+    @height <= @y + 1
   end
 
   def angle
@@ -57,13 +53,13 @@ class Bird
       @angle = -90 if @angle < -90
       @tap_count = 0
     elsif @tap_count == 0
-      @y += 1
+      @y += live? ? 1 : 2
       @angle += 30
       @angle = 90 if @angle > 90
     end
 
     if ground?
-      y = @height - 1
+      @y = @height - 1
       kill
     end
   end
