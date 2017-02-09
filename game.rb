@@ -76,9 +76,9 @@ class Game
     thread = Thread.start {
       every_seconds(1) do
         if @startgame
-          if @gameover
-            thread.join
+          if gameover?
             puts 'gameover'
+            thread.join
             break
           end
 
@@ -164,7 +164,9 @@ class Game
     array_to_text(arr)
   end
 
-
+  def gameover?
+    @bird.altitude < 1
+  end
 
   def ts
     @post['ts']
