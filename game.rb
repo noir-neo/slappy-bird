@@ -151,8 +151,16 @@ class Game
   end
 
   def render_ui(arr)
-    arr[0][@@width/2] = @@num[score]
+    digits = get_digits(score)
+    count = digits.size
+    digits.each_with_index do |item, idx|
+      arr[0][@@width/2 - count/2 + idx] = @@num[item]
+    end
     arr
+  end
+
+  def get_digits(n)
+    n.abs.to_s.each_byte.map{|b| b - 0x30}
   end
 
   def title_text
