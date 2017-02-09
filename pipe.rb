@@ -10,7 +10,11 @@ class Pipe
   end
 
   def pos
-    [@x - 1, @space - 3, @space + 1]
+    {
+      :x => @x - 1,
+      :top => @space - 3,
+      :bottom => @space + 1
+    }
   end
 
   def random_space(height)

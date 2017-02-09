@@ -131,15 +131,15 @@ class Game
   def render_map(arr)
     arr[@@height - 1] = arr[@@height - 1].map { |e| e = @@m[:gr] }
 
-    @map.pipes.each do |pipe|
-      [*0..pipe.pos[1]].each do |down|
-        arr[down][pipe.pos[0]] = @@m[:pi]
+    @map.pipes_pos.each do |pos|
+      [*0..pos[:top]].each do |down|
+        arr[down][pos[:x]] = @@m[:pi]
       end
-      [*pipe.pos[2]..@@height-1].each do |up|
-        arr[up][pipe.pos[0]] = @@m[:pi]
+      [*pos[:bottom]..@@height-1].each do |up|
+        arr[up][pos[:x]] = @@m[:pi]
       end
-      arr[pipe.pos[1]][pipe.pos[0]] = @@m[:ed]
-      arr[pipe.pos[2]][pipe.pos[0]] = @@m[:eu]
+      arr[pos[:top]][pos[:x]] = @@m[:ed]
+      arr[pos[:bottom]][pos[:x]] = @@m[:eu]
     end
     arr
   end

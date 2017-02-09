@@ -10,8 +10,10 @@ class Map
     @countup_create_pipe = 0
   end
 
-  def pipes
-    @pipes
+  def pipes_pos
+    @pipes.map do |pipe|
+      pipe.pos
+    end
   end
 
   def create_pipe
