@@ -40,26 +40,34 @@ class Game
 
   def initialize(channel)
     start(channel)
-    main_loop
   end
 
-  def start(channel)
+  def start(channel = nil)
     @startgame = nil
     @score = 0
     @bird = Bird.new(@@height)
     @map = Map.new(@@width, @@height)
 
+    unless @post || channel.nil?
+      @post = post_message(channel, title_text)
+      reaction(@post)
+    else
+      @startgame = false
+      chat_update(title_text)
+    end
+
+    main_loop
+  end
+
+  def post_message(channel, text)
     params =
     {
       channel: channel,
-      text: title_text,
+      text: text,
       icon_emoji: @@f[0],
       username: 'Slappy Bird'
     }
-    #binding.pry
-    @post = Slack.chat_postMessage(params)
-
-    reaction(@post)
+    Slack.chat_postMessage(params)
   end
 
   def reaction(post)
@@ -77,7 +85,6 @@ class Game
       every_seconds(1) do
         if @startgame
           if gameover?
-            puts 'gameover'
             thread.join
             break
           end
@@ -102,15 +109,15 @@ class Game
     @bird.update
     @map.update
 
-    chat_update
+    chat_update(update_text)
   end
 
-  def chat_update
+  def chat_update(text)
     params =
     {
       ts: @post['ts'],
       channel: @post['channel'],
-      text: update_text,
+      text: text,
     }
     Slack.chat_update(params)
   end
@@ -175,6 +182,11 @@ class Game
   def tap
     if @startgame.nil?
       @startgame = false
+      return
+    end
+
+    if gameover?
+      start
       return
     end
 
