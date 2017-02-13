@@ -217,7 +217,9 @@ class Game
       return
     end
 
-    @bird.tap
-    @startgame = true
+    if @bird.live?
+      @bird.tap
+      @startgame = true
+    end
   end
 end
